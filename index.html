@@ -7,7 +7,14 @@
     <title>Quarter RunGame</title>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="./src/main.js"></script>
+    <script type="module">
+      import {Game} from "./src/main.js"
+      document.addEventListener("DOMContentLoaded",
+        () => {
+          const game = new Game()
+          window.game = game
+        }
+      )
+    </script>
   </body>
 </html>
