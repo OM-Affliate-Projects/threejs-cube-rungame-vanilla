@@ -86,7 +86,8 @@ class Game {
 
   //Animate Method firing every frame
   animate() {
-    requestAnimationFrame(this.animate);
+    const animationId = requestAnimationFrame(this.animate);
+    // requestAnimationFrame(this.animate);
 
     this.renderer.render(this.scene, this.camera);
 
@@ -105,9 +106,10 @@ class Game {
     this.enemies.forEach((enemy) => {
       enemy.update(this.ground);
       if (boxCollision({ box1: this.cube, box2: enemy })) {
-        cancelAnimationFrame(this.animate);
+        cancelAnimationFrame(animationId);
       }
     });
+
     //Declaration für enemies frames und spawn nicht in animate weil animate jeder frame neu ist aka reset
     // Spawn enemies
     if (this.frames % this.spawnRate === 0) {
