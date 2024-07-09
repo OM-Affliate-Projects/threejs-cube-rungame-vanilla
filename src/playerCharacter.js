@@ -1,5 +1,7 @@
 import * as THREE from "three";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { DRACOLoader } from "three/examples/jsm/Addons.js";
+import { GLTFLoader } from "three/examples/jsm/Addons.js";
+
 
 class Player {
   constructor(game, animate) {
@@ -10,23 +12,26 @@ class Player {
   }
   load() {
     const loader = new GLTFLoader();
+    const dracoLoader = new DRACOLoader()
+    dracoLoader.setDecoderPath("../node_modules/three/examples/jsm/libs/draco/")
+    loader.setDRACOLoader(dracoLoader)
     loader.load(
-      "./assest/eve.glb",
+      "../src/assets/ReadiedAsset.glb",
       (gltf) => {
- console.log(gltf),
-        //   console.log("modelLoaded");
-        this.scene.add(gltf.scene);
+        console.log(gltf),
+          //   console.log("modelLoaded");
+          this.scene.add(gltf.scene);
         this.playerChar = gltf.scene;
-        this.playerChar.position.set(0, 0, 0);
+        this.playerChar.position.set(0, -1, 0);
       },
 
       (xhr) => {
         console.log((xhr.loaded / xhr.total) * 100 + "% Loaded");
-      },
+      }
 
-    //   (error) => {
-    //     console.error("ups", error);
-    //   }
+      //   (error) => {
+      //     console.error("ups", error);
+      //   }
     );
   }
 }

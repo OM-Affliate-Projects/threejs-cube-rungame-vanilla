@@ -48,7 +48,7 @@ class Game {
     this.scene.add(this.cube);
 
     //Player Character Load
-    this.newPlayer = new Player(this.scene, this.animate.bind(this));
+    this.newPlayer = new Player(this, this.animate.bind(this));
     // console.log(this.newPlayer);
     // // this.scene.add(this.newPlayer);
     // this.newPlayer.load()
