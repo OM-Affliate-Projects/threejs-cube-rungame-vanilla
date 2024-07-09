@@ -4,6 +4,8 @@ import { OrbitControls } from "three/examples/jsm/Addons.js";
 import { Box } from "./box";
 import { boxCollision } from "./utils";
 import { Keys } from "./keys";
+import { Player } from "./playerCharacter";
+import { GLTFLoader } from "three/examples/jsm/Addons.js";
 
 class Game {
   constructor() {
@@ -44,6 +46,9 @@ class Game {
     });
     this.cube.castShadow = true;
     this.scene.add(this.cube);
+    this.newPlayer = new Player();
+    this.scene.add(this.newPlayer);
+
     //The Ground
     this.ground = new Box({
       width: 10,
