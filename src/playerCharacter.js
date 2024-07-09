@@ -2,7 +2,8 @@ import * as THREE from "three";
 import { DRACOLoader } from "three/examples/jsm/Addons.js";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 
-
+//Draco loader war notwendig warum auch immer
+//der pfad ist ein krampf
 class Player {
   constructor(game, animate) {
     this.game = game;
@@ -12,9 +13,11 @@ class Player {
   }
   load() {
     const loader = new GLTFLoader();
-    const dracoLoader = new DRACOLoader()
-    dracoLoader.setDecoderPath("../node_modules/three/examples/jsm/libs/draco/")
-    loader.setDRACOLoader(dracoLoader)
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath(
+      "../node_modules/three/examples/jsm/libs/draco/"
+    );
+    loader.setDRACOLoader(dracoLoader);
     loader.load(
       "../src/assets/ReadiedAsset.glb",
       (gltf) => {
@@ -27,11 +30,11 @@ class Player {
 
       (xhr) => {
         console.log((xhr.loaded / xhr.total) * 100 + "% Loaded");
-      }
+      },
 
-      //   (error) => {
-      //     console.error("ups", error);
-      //   }
+      (error) => {
+        console.error("ups", error);
+      }
     );
   }
 }
