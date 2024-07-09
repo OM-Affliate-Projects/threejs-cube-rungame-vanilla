@@ -9,15 +9,12 @@ class Game {
   constructor() {
     const container = document.createElement("div");
     document.body.appendChild(container);
-
     this.scene = new THREE.Scene();
-
     //Window Sizes
     const sizes = {
       width: window.innerWidth,
       height: window.innerHeight,
     };
-
     //Camera
     this.camera = new THREE.PerspectiveCamera(
       75,
@@ -27,7 +24,6 @@ class Game {
     );
     //Camera Position
     this.camera.position.set(4.61, 2.74, 8);
-
     //Init Renderer
     this.renderer = new THREE.WebGLRenderer({
       alpha: true,
@@ -37,10 +33,8 @@ class Game {
     this.renderer.setSize(sizes.width, sizes.height);
     //Appending The Renderer to the dom Element
     container.appendChild(this.renderer.domElement);
-
     //Orbit Controls for debugging
     const controls = new OrbitControls(this.camera, this.renderer.domElement);
-
     //Player Cube
     this.cube = new Box({
       width: 1,
@@ -50,7 +44,6 @@ class Game {
     });
     this.cube.castShadow = true;
     this.scene.add(this.cube);
-
     //The Ground
     this.ground = new Box({
       width: 10,
@@ -61,7 +54,6 @@ class Game {
     });
     this.ground.receiveShadow = true;
     this.scene.add(this.ground);
-
     //Direct Light Source
     const light = new THREE.DirectionalLight(0xffffff, 1);
     light.position.y = 3;
@@ -70,10 +62,8 @@ class Game {
     this.scene.add(light);
     //An ambient light source
     this.scene.add(new THREE.AmbientLight(0xffffff, 0.5));
-
     // Keys class with keyHandler
     this.keys = new Keys();
-
     //Declaring Enemies array,Frames and the spawnrate
     this.enemies = [];
     this.frames = 0;
@@ -87,10 +77,7 @@ class Game {
   //Animate Method firing every frame
   animate() {
     const animationId = requestAnimationFrame(this.animate);
-    // requestAnimationFrame(this.animate);
-
     this.renderer.render(this.scene, this.camera);
-
     // Update cube
     this.cube.velocity.x = 0;
     this.cube.velocity.z = 0;
@@ -99,9 +86,7 @@ class Game {
     if (this.keys.keys.s.pressed) this.cube.velocity.z = 0.05;
     if (this.keys.keys.w.pressed) this.cube.velocity.z = -0.05;
     if (this.keys.keys.space.pressed) this.cube.velocity.y = 0.12;
-
     this.cube.update(this.ground);
-
     // Update enemies and check collisions
     this.enemies.forEach((enemy) => {
       enemy.update(this.ground);
@@ -109,7 +94,6 @@ class Game {
         cancelAnimationFrame(animationId);
       }
     });
-
     //Declaration für enemies frames und spawn nicht in animate weil animate jeder frame neu ist aka reset
     // Spawn enemies
     if (this.frames % this.spawnRate === 0) {
@@ -133,7 +117,6 @@ class Game {
       }
     }
     this.frames++;
-    console.log(this.enemies.length);
   }
 
   //Render Method
