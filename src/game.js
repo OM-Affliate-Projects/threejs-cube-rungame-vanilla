@@ -24,6 +24,20 @@ class Game {
     );
     //Camera Position
     this.camera.position.set(4.61, 2.74, 8);
+    //Audio Listener
+    const listener = new THREE.AudioListener();
+    this.camera.add(listener);
+
+    const sound = new THREE.Audio(listener);
+
+    this.audioLoader = new THREE.AudioLoader();  
+    this.audioLoader.load("./sounds/pop-punk-rock.mp3", function(buffer){
+      sound.setBuffer(buffer)
+      sound.setLoop(true)
+      sound.setVolume(0.5)
+      sound.play()
+    })
+
     //Init Renderer
     this.renderer = new THREE.WebGLRenderer({
       alpha: true,
