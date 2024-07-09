@@ -46,8 +46,12 @@ class Game {
     });
     this.cube.castShadow = true;
     this.scene.add(this.cube);
-    this.newPlayer = new Player();
-    this.scene.add(this.newPlayer);
+
+    //Player Character Load
+    this.newPlayer = new Player(this.scene, this.animate.bind(this));
+    // console.log(this.newPlayer);
+    // // this.scene.add(this.newPlayer);
+    // this.newPlayer.load()
 
     //The Ground
     this.ground = new Box({
