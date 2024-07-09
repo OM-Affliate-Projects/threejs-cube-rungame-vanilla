@@ -3,18 +3,21 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
 import { Box } from "./box";
 import { boxCollision } from "./utils";
+import { Keys } from "./keys";
 
 class Game {
   constructor() {
     const container = document.createElement("div");
-
     document.body.appendChild(container);
+
     this.scene = new THREE.Scene();
+
     //Window Sizes
     const sizes = {
       width: window.innerWidth,
       height: window.innerHeight,
     };
+
     //Camera
     this.camera = new THREE.PerspectiveCamera(
       75,
@@ -22,9 +25,9 @@ class Game {
       0.1,
       1000
     );
-    console.log(this.camera);
     //Camera Position
     this.camera.position.set(4.61, 2.74, 8);
+
     //Init Renderer
     this.renderer = new THREE.WebGLRenderer({
       alpha: true,
@@ -34,9 +37,10 @@ class Game {
     this.renderer.setSize(sizes.width, sizes.height);
     //Appending The Renderer to the dom Element
     container.appendChild(this.renderer.domElement);
-    console.log(this.renderer);
+
     //Orbit Controls for debugging
     const controls = new OrbitControls(this.camera, this.renderer.domElement);
+
     //Player Cube
     this.cube = new Box({
       width: 1,
@@ -46,6 +50,7 @@ class Game {
     });
     this.cube.castShadow = true;
     this.scene.add(this.cube);
+
     //The Ground
     this.ground = new Box({
       width: 10,
@@ -54,9 +59,9 @@ class Game {
       color: "#3b82f6",
       position: { x: 0, y: -2, z: 0 },
     });
-
     this.ground.receiveShadow = true;
     this.scene.add(this.ground);
+
     //Direct Light Source
     const light = new THREE.DirectionalLight(0xffffff, 1);
     light.position.y = 3;
@@ -65,78 +70,18 @@ class Game {
     this.scene.add(light);
     //An ambient light source
     this.scene.add(new THREE.AmbientLight(0xffffff, 0.5));
-    //Keys Object
-    this.keys = {
-      a: {
-        pressed: false,
-      },
-      d: {
-        pressed: false,
-      },
-      s: {
-        pressed: false,
-      },
-      w: {
-        pressed: false,
-      },
-    };
+
+    // Keys class with keyHandler
+    this.keys = new Keys();
+
     //Declaring Enemies array,Frames and the spawnrate
     this.enemies = [];
     this.frames = 0;
     this.spawnRate = 200;
     this.camera.position.z = 5;
-    this.keyHandler();
+    this.keys.keyHandler();
     this.animate = this.animate.bind(this);
     this.animate();
-  }
-  //Resize Mehtod
-  resize() {
-    const sizes = {
-      width: window.innerWidth,
-      height: window.innerHeight,
-    };
-    this.camera.aspect = sizes.width / sizes.height;
-    this.camera.updateProjectionMatrix();
-    this.renderer.setSize(sizes.width, sizes.height);
-  }
-
-  //Keyhandler Method
-  keyHandler() {
-    document.addEventListener("keydown", (e) => {
-      switch (e.code) {
-        case "KeyA":
-          this.keys.a.pressed = true;
-          break;
-        case "KeyD":
-          this.keys.d.pressed = true;
-          break;
-        case "KeyS":
-          this.keys.s.pressed = true;
-          break;
-        case "KeyW":
-          this.keys.w.pressed = true;
-          break;
-        case "Space":
-          this.cube.velocity.y = 0.12;
-      }
-    });
-
-    document.addEventListener("keyup", (e) => {
-      switch (e.code) {
-        case "KeyA":
-          this.keys.a.pressed = false;
-          break;
-        case "KeyD":
-          this.keys.d.pressed = false;
-          break;
-        case "KeyS":
-          this.keys.s.pressed = false;
-          break;
-        case "KeyW":
-          this.keys.w.pressed = false;
-          break;
-      }
-    });
   }
 
   //Animate Method firing every frame
@@ -148,10 +93,11 @@ class Game {
     // Update cube
     this.cube.velocity.x = 0;
     this.cube.velocity.z = 0;
-    if (this.keys.a.pressed) this.cube.velocity.x = -0.05;
-    if (this.keys.d.pressed) this.cube.velocity.x = 0.05;
-    if (this.keys.s.pressed) this.cube.velocity.z = 0.05;
-    if (this.keys.w.pressed) this.cube.velocity.z = -0.05;
+    if (this.keys.keys.a.pressed) this.cube.velocity.x = -0.05;
+    if (this.keys.keys.d.pressed) this.cube.velocity.x = 0.05;
+    if (this.keys.keys.s.pressed) this.cube.velocity.z = 0.05;
+    if (this.keys.keys.w.pressed) this.cube.velocity.z = -0.05;
+    if (this.keys.keys.space.pressed) this.cube.velocity.y = 0.12;
 
     this.cube.update(this.ground);
 
