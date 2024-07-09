@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -8,13 +8,11 @@
   </head>
   <body>
     <script type="module">
-      import {Game} from "./src/main.js"
-      document.addEventListener("DOMContentLoaded",
-        () => {
-          const game = new Game()
-          window.game = game
-        }
-      )
+      import { Game } from "./src/game.js";
+      document.addEventListener("DOMContentLoaded", () => {
+        const game = new Game();
+        window.game = game;
+      });
     </script>
   </body>
 </html>

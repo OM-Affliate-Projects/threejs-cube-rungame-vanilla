@@ -37,12 +37,6 @@ class Game {
     console.log(this.renderer);
     //Orbit Controls for debugging
     const controls = new OrbitControls(this.camera, this.renderer.domElement);
-    //Test Cube
-    const testGeo = new THREE.BoxGeometry();
-    const testMat = new THREE.MeshStandardMaterial({ color: 0xffffff });
-    this.mesh = new THREE.Mesh(testGeo, testMat);
-    this.scene.add(this.mesh);
-    console.log(this.mesh);
     //Player Cube
     this.cube = new Box({
       width: 1,
@@ -105,6 +99,46 @@ class Game {
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(sizes.width, sizes.height);
   }
+
+  //Keyhandler Method
+  keyHandler() {
+    document.addEventListener("keydown", (e) => {
+      switch (e.code) {
+        case "KeyA":
+          this.keys.a.pressed = true;
+          break;
+        case "KeyD":
+          this.keys.d.pressed = true;
+          break;
+        case "KeyS":
+          this.keys.s.pressed = true;
+          break;
+        case "KeyW":
+          this.keys.w.pressed = true;
+          break;
+        case "Space":
+          this.cube.velocity.y = 0.12;
+      }
+    });
+
+    document.addEventListener("keyup", (e) => {
+      switch (e.code) {
+        case "KeyA":
+          this.keys.a.pressed = false;
+          break;
+        case "KeyD":
+          this.keys.d.pressed = false;
+          break;
+        case "KeyS":
+          this.keys.s.pressed = false;
+          break;
+        case "KeyW":
+          this.keys.w.pressed = false;
+          break;
+      }
+    });
+  }
+
   //Animate Method firing every frame
   animate() {
     requestAnimationFrame(this.animate);
@@ -153,44 +187,7 @@ class Game {
     this.frames++;
     console.log(this.enemies.length);
   }
-  //Keyhandler Method
-  keyHandler() {
-    document.addEventListener("keydown", (e) => {
-      switch (e.code) {
-        case "KeyA":
-          keys.a.pressed = true;
-          break;
-        case "KeyD":
-          keys.d.pressed = true;
-          break;
-        case "KeyS":
-          keys.s.pressed = true;
-          break;
-        case "KeyW":
-          keys.w.pressed = true;
-          break;
-        case "Space":
-          cube.velocity.y = 0.12;
-      }
-    });
 
-    document.addEventListener("keyup", (e) => {
-      switch (e.code) {
-        case "KeyA":
-          keys.a.pressed = false;
-          break;
-        case "KeyD":
-          keys.d.pressed = false;
-          break;
-        case "KeyS":
-          keys.s.pressed = false;
-          break;
-        case "KeyW":
-          keys.w.pressed = false;
-          break;
-      }
-    });
-  }
   //Render Method
   render() {
     this.renderer.render(this.scene, this.camera);
