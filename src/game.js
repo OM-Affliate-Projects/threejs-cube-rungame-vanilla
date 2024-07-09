@@ -9,6 +9,8 @@ class Game {
   constructor() {
     const container = document.createElement("div");
     document.body.appendChild(container);
+    container.style.position = "relative"
+  
     this.scene = new THREE.Scene();
     //Window Sizes
     const sizes = {
@@ -25,19 +27,7 @@ class Game {
     //Camera Position
     this.camera.position.set(4.61, 2.74, 8);
     //Audio Listener
-    const listener = new THREE.AudioListener();
-    this.camera.add(listener);
-
-    const sound = new THREE.Audio(listener);
-
-    this.audioLoader = new THREE.AudioLoader();  
-    this.audioLoader.load("./sounds/pop-punk-rock.mp3", function(buffer){
-      sound.setBuffer(buffer)
-      sound.setLoop(true)
-      sound.setVolume(0.5)
-      sound.play()
-    })
-
+    
     //Init Renderer
     this.renderer = new THREE.WebGLRenderer({
       alpha: true,
@@ -85,7 +75,8 @@ class Game {
     this.camera.position.z = 5;
     this.keys.keyHandler();
     this.animate = this.animate.bind(this);
-    this.animate();
+    this.startGame()
+  //this.animate();
   }
 
   //Animate Method firing every frame
@@ -131,6 +122,32 @@ class Game {
       }
     }
     this.frames++;
+  }
+
+  initGame(){
+    const listener = new THREE.AudioListener();
+    this.camera.add(listener);
+    const sound = new THREE.Audio(listener);
+    const backGroundMusic = document.getElementById("song")
+    sound.setMediaElementSource(backGroundMusic)
+    sound.setVolume(0.1)
+  
+    backGroundMusic.play()
+    this.animate()
+  }
+
+  startGame(){
+    const playButton = document.createElement("button")
+    playButton.setAttribute("id","start")
+    document.body.appendChild(playButton)
+    playButton.style.position = "fixed"
+    playButton.style.top = "50%"
+    playButton.style.right = "50%"
+    playButton.innerHTML = "Start"
+    
+    playButton.addEventListener("click", this.initGame())
+
+    console.log(playButton);
   }
 
   //Render Method
